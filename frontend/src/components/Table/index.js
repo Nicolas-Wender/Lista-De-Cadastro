@@ -1,11 +1,57 @@
-import React from 'react'
-import { BiTrash } from 'react-icons/bi';
-import { AiOutlineEdit } from 'react-icons/ai';
+import React, { useState, useEffect } from 'react'
+import { BiTrash } from 'react-icons/bi'
+import { AiOutlineEdit } from 'react-icons/ai'
 
+//quando ele apertar o botão de editar, o botão tem que mudar de icone, e os inputs da tabela tem que se criar uma borda e se tornar editaveis
 
-
+//Aqui que vai ficar a requisição aos dados
+const dadosEdit = [
+  {
+    id: 1,
+    Nome: 'Nicolas',
+    Email: 'Gomes',
+    Telefone: 'Gomes',
+    DataNascimento: 'Gomes'
+  },
+  {
+    id: 2,
+    Nome: 'Eduardo',
+    Email: 'Maciel',
+    Telefone: 'Maciel',
+    DataNascimento: 'Maciel'
+  }
+]
 
 export default function Table() {
+  const [dados, setDados] = useState([])
+  const [edit, setEdit] = useState([])
+
+  useEffect(() => {
+    const arrayEdit = dados.map(() => false)
+
+    setEdit(arrayEdit)
+
+    setDados(dadosEdit)
+    console.log(arrayEdit)
+  }, [dadosEdit])
+
+  const handleChange = (id, value, input) => {
+    const novosDados = [...dados]
+    novosDados.forEach(dado => {
+      if (dado.id === id) {
+        dado[input] = value
+      }
+    })
+
+    setDados(novosDados)
+  }
+
+  const mudarEdit = index => {
+    const novoArray = [...edit]
+    novoArray[index] = !novoArray[index]
+    setEdit(novoArray)
+  }
+
   return (
     <table className="w-4/6 p-5 rounded-md m-5">
       <thead className="">
@@ -28,44 +74,34 @@ export default function Table() {
         </tr>
       </thead>
       <tbody className="border border-black rounded-lg ">
-        {[...Array(6)].map((_, index) => (
-          <tr key={index}>
-            <td
-              className={
-                index % 2 === 1
-                  ? "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 "
-                  : "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 v bg-zinc-100"
-              }
-            >
-              Linha {index + 1}, Coluna 1
-            </td>
-            <td
-              className={
-                index % 2 === 1
-                  ? "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 "
-                  : "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 v bg-zinc-100"
-              }
-            >
-              Linha {index + 1}, Coluna 2
-            </td>
-            <td
-              className={
-                index % 2 === 1
-                  ? "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 "
-                  : "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 v bg-zinc-100"
-              }
-            >
-              Linha {index + 1}, Coluna 3
-            </td>
-            <td
-              className={
-                index % 2 === 1
-                  ? "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 "
-                  : "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 v bg-zinc-100"
-              }
-            >
-              Linha {index + 1}, Coluna 4
-            </td>
+        {dados.map((dado, index) => (
+          <tr key={dado.id}>
+            {Object.entries(dado)
+              .slice(1)
+              .map(value => (
+                <td
+                  key={value[0]}
+                  className={
+                    index % 2 === 1
+                      ? "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 pb-4"
+                      : "pt-4 text-start w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pl-6 pb-4 bg-zinc-100"
+                  }
+                >
+                  <input
+                    className={
+                      !edit[index]
+                        ? 'p-2 bg-transparent'
+                        : 'p-2 border border-black'
+                    }
+                    type="text"
+                    value={value[1]}
+                    onChange={e =>
+                      handleChange(dado.id, e.target.value, value[0])
+                    }
+                    disabled={!edit[index]}
+                  />
+                </td>
+              ))}
             <td
               className={
                 index % 2 === 1
@@ -73,11 +109,16 @@ export default function Table() {
                   : "pt-4 text-end w-auto text-base font-medium font-['Roboto'] leading-normal h-20 pr-6 gap-4 flex justify-end bg-zinc-100"
               }
             >
-              <button className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl">
-                <AiOutlineEdit/>
+              <button
+                className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl"
+                onClick={() => {
+                  mudarEdit(index)
+                }}
+              >
+                <AiOutlineEdit />
               </button>
               <button className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl">
-                <BiTrash/>
+                <BiTrash />
               </button>
             </td>
           </tr>
