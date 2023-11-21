@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { BiTrash } from 'react-icons/bi'
 import { AiOutlineEdit } from 'react-icons/ai'
 
-//quando ele apertar o botão de editar, o botão tem que mudar de icone, e os inputs da tabela tem que se criar uma borda e se tornar editaveis
-
-//Aqui que vai ficar a requisição aos dados
 const dadosEdit = [
   {
     id: 1,
@@ -24,16 +21,11 @@ const dadosEdit = [
 
 export default function Table() {
   const [dados, setDados] = useState([])
-  const [edit, setEdit] = useState([])
+  const [edit, setEdit] = useState(dados.map(() => false))
 
   useEffect(() => {
-    const arrayEdit = dados.map(() => false)
-
-    setEdit(arrayEdit)
-
     setDados(dadosEdit)
-    console.log(arrayEdit)
-  }, [dadosEdit])
+  }, [])
 
   const handleChange = (id, value, input) => {
     const novosDados = [...dados]
@@ -50,6 +42,16 @@ export default function Table() {
     const novoArray = [...edit]
     novoArray[index] = !novoArray[index]
     setEdit(novoArray)
+  }
+
+  const excluirDado = id => {
+    const novosDados = [...dados]
+    const indiceParaExcluir = novosDados.findIndex(objeto => objeto.id === id)
+
+    if (indiceParaExcluir !== -1) {
+      novosDados.splice(indiceParaExcluir, 1)
+    }
+    setDados(novosDados)
   }
 
   return (
@@ -117,7 +119,12 @@ export default function Table() {
               >
                 <AiOutlineEdit />
               </button>
-              <button className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl">
+              <button
+                className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl"
+                onClick={() => {
+                  excluirDado(dado.id)
+                }}
+              >
                 <BiTrash />
               </button>
             </td>
