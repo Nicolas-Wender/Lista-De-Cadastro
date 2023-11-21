@@ -1,6 +1,5 @@
-require('dotenv').config({ path: 'api/.env', encoding: 'latin1' })
+require('dotenv').config({ path:'./.env', encoding: 'latin1', debug: true, silent: true })
 
-console.log(process.env.DIALECT)
 module.exports = {
   development: {
     username: process.env.DB_USER,
@@ -8,7 +7,7 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: process.env.DIALECT
+    dialect: 'postgres'
   },
   test: {
     username: process.env.DB_USER,
@@ -16,7 +15,7 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: process.env.DIALECT
+    dialect: 'postgres'
   },
   production: {
     username: process.env.DB_USER,
@@ -24,6 +23,6 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: process.env.DIALECT
+    dialect: 'postgres'
   }
 }
