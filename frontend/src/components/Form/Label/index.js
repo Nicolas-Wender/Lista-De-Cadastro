@@ -1,6 +1,6 @@
-import React from 'react'
-
 export default function Label(props) {
+  const handleChange = props.handleChange
+
   return (
     <div className="Input grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
       <label
@@ -14,6 +14,7 @@ export default function Label(props) {
         type={props.type}
         id={props.id}
         placeholder={props.placeholder}
+        onChange={e => handleChange(props.id, e.target.value)}
       />
     </div>
   )

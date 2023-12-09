@@ -4,7 +4,7 @@ class UserController {
   static async getAllUser(req, res) {
     try {
       const AllUSers = await db.User.findAll()
-      return res.status(200).json({ message: 'success', data: AllUSers })
+      return res.status(200).json(AllUSers)
     } catch (error) {
       return res.status(500).json(error.message)
     }
@@ -18,7 +18,7 @@ class UserController {
           id: Number(id)
         }
       })
-      return res.status(200).json({ message: 'sucess', data: user })
+      return res.status(200).json(user)
     } catch (error) {
       return res.status(500).json(error.message)
     }

@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { BiTrash } from 'react-icons/bi'
 import { AiOutlineEdit } from 'react-icons/ai'
-
-const dadosEdit = [
-  {
-    id: 1,
-    Nome: 'Nicolas',
-    Email: 'Gomes',
-    Telefone: 'Gomes',
-    DataNascimento: 'Gomes'
-  },
-  {
-    id: 2,
-    Nome: 'Eduardo',
-    Email: 'Maciel',
-    Telefone: 'Maciel',
-    DataNascimento: 'Maciel'
-  }
-]
+import axios from 'axios'
 
 export default function Table() {
   const [dados, setDados] = useState([])
   const [edit, setEdit] = useState(dados.map(() => false))
 
+  const getDados = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/user')
+      console.log(res.data)
+      setDados(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    setDados(dadosEdit)
+    getDados()
   }, [])
 
   const handleChange = (id, value, input) => {
@@ -62,13 +56,13 @@ export default function Table() {
             Nome
           </th>
           <th className="text-start pb-1 pl-6 text-black text-base font-semibold font-['Roboto'] leading-normal">
-            Email
-          </th>
-          <th className="text-start pb-1 pl-6 text-black text-base font-semibold font-['Roboto'] leading-normal">
             Telefone
           </th>
           <th className="text-start pb-1 pl-6 text-black text-base font-semibold font-['Roboto'] leading-normal">
             Data de Nascimento
+          </th>
+          <th className="text-start pb-1 pl-6 text-black text-base font-semibold font-['Roboto'] leading-normal">
+            Email
           </th>
           <th className="text-end pb-1 pr-6 text-black text-base font-semibold font-['Roboto'] leading-normal">
             Opções

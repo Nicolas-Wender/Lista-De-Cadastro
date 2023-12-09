@@ -13,21 +13,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       Telefone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       DataDeNascimento: {
         type: Sequelize.DATE
       },
       Email: {
         type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },
