@@ -17,8 +17,19 @@ export default function Table({ dados, setDados }) {
     setDados(novosDados)
   }
 
-  const mudarEdit = index => {
+  const mudarEdit = async (id, index) => {
     const novoArray = [...edit]
+
+    if (novoArray[index] === true) {
+      const dado = {
+        ...dados[index],
+        DataDeNascimento: new Date(dados[index].data)
+      }
+      await axios
+        .put(`http://localhost:8000/user/${id}`, dado)
+        .catch(error => console.log(error))
+    }
+
     novoArray[index] = !novoArray[index]
     setEdit(novoArray)
   }
@@ -97,7 +108,7 @@ export default function Table({ dados, setDados }) {
               <button
                 className="Button h-11 w-11 flex justify-center items-center bg-black rounded-lg border border-black text-white text-xl"
                 onClick={() => {
-                  mudarEdit(index)
+                  mudarEdit(dado.id, index)
                 }}
               >
                 <AiOutlineEdit />

@@ -19,7 +19,6 @@ export default function Form({ getUsers }) {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    console.log(dadosInput)
     try {
       await axios.post('http://localhost:8000/user', dadosInput)
       getUsers()
