@@ -2,12 +2,12 @@ import { useState } from 'react'
 import Label from './Label'
 import axios from 'axios'
 
-export default function Form() {
+export default function Form({ getUsers }) {
   const [dadosInput, setDadosInput] = useState({
-    Nome: "",
-    Telefone: "",
-    DataDeNascimento: "",
-    Email: ""
+    Nome: '',
+    Telefone: '',
+    DataDeNascimento: '',
+    Email: ''
   })
 
   const handleChange = (id, e) => {
@@ -18,9 +18,11 @@ export default function Form() {
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    console.log(dadosInput)
     try {
-      console.log(dadosInput)
-      await axios.post('http://localhost:8000/user',dadosInput)
+      await axios.post('http://localhost:8000/user', dadosInput)
+      getUsers()
     } catch (error) {
       console.log(error)
     }

@@ -1,25 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { BiTrash } from 'react-icons/bi'
 import { AiOutlineEdit } from 'react-icons/ai'
 import axios from 'axios'
 
-export default function Table() {
-  const [dados, setDados] = useState([])
+export default function Table({ dados, setDados }) {
   const [edit, setEdit] = useState(dados.map(() => false))
-
-  const getDados = async () => {
-    try {
-      const res = await axios.get('http://localhost:8000/user')
-      console.log(res.data)
-      setDados(res.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getDados()
-  }, [])
 
   const handleChange = (id, value, input) => {
     const novosDados = [...dados]
@@ -38,7 +23,11 @@ export default function Table() {
     setEdit(novoArray)
   }
 
-  const excluirDado = id => {
+  const excluirDado = async id => {
+    await axios
+      .delete(`http://localhost:8000/user/${id}`)
+      .catch(error => console.log(error))
+
     const novosDados = [...dados]
     const indiceParaExcluir = novosDados.findIndex(objeto => objeto.id === id)
 
